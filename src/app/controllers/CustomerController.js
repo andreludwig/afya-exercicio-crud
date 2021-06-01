@@ -33,6 +33,10 @@ module.exports = {
   async edit(req, res) {
     const customer = await Customer.findByPk(req.params.id);
 
+    if (!customer) {
+      return res.status(400).json({ error: "Customer not found" });
+    }
+
     customer.name = req.body.name;
     customer.cpf = req.body.cpf;
     customer.phone = req.body.phone;
@@ -45,6 +49,11 @@ module.exports = {
 
   async remove(req, res) {
     const customer = await Customer.findByPk(req.params.id);
+
+    if (!customer) {
+      return res.status(400).json({ error: "Customer not found" });
+    }
+
     await customer.destroy();
 
     return res.status(200).send();
